@@ -1,7 +1,7 @@
 package rest
 
 import (
-	"/backend/services/mqtt/mqtt"
+	"github.com/booua/dashboard-hub/backend/services/mqtt"
 
 	"github.com/go-chi/chi"
 )
