@@ -9,4 +9,4 @@ RUN go install -v ./...
 
 EXPOSE 8080
 
-CMD ["dashboard-hub"]
+CMD ["./dashboard-hub"]
