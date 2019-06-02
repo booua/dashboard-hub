@@ -6,8 +6,7 @@ COPY . .
 RUN go get -d -v ./...
 
 RUN go install -v ./...
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /go/bin/dashboard-hub .
-
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=5 go build
 EXPOSE 8080
 
 CMD ["./dashboard-hub"]
