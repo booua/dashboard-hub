@@ -1,8 +1,8 @@
-FROM golang:1.11.2
+FROM alpine:latest
 WORKDIR $GOPATH/src/github.com/booua/dashboard-hub
 
 COPY . .
-
+RUN apk add go
 RUN go get -d -v ./...
 
 RUN go install -v ./...
