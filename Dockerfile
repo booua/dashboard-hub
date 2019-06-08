@@ -9,6 +9,6 @@ RUN go get -d -v
 
 RUN GOOS=linux GOARCH=arm64 go build
 
-EXPOSE 8081
+EXPOSE 8080
 
 CMD ["./dashboard-hub"]
