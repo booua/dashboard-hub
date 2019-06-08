@@ -1,12 +1,14 @@
-FROM alpine:latest
+FROM golang:alpine
 WORKDIR $GOPATH/src/github.com/booua/dashboard-hub
 
 COPY . .
-RUN apk add go
+
 RUN go get -d -v ./...
 
 RUN go install -v ./...
-RUN GOOS=linux GOARCH=arm GOARM=5 go build
-EXPOSE 8080
+
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=5 go build -a -installsuffix cgo
+
+EXPOSE 8081
 
 CMD ["./dashboard-hub"]
