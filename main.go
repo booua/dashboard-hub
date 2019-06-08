@@ -22,6 +22,7 @@ func Routes() *chi.Mux {
 
 	router.Route("/v1", func(r chi.Router) {
 		r.Mount("/dashboard-hub/blinds/", rest.Routes())
+		r.Mount("/dashboard-hub/status/", rest.Routes())
 	})
 	return router
 }
