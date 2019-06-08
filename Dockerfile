@@ -7,12 +7,8 @@ COPY . .
 
 RUN go get -d -v
 
-RUN GOOS=linux GOARCH=arm GOARM=5 go build -a -ldflags="-w -s" -o /build/dashboard-hub
-
-FROM scratch
-
-COPY --from=builder /build/dashboard-hub /build/dashboard-hub
+RUN GOOS=linux GOARCH=arm64 go build
 
 EXPOSE 8081
 
-CMD ["/build/dashboard-hub"]
+CMD ["./dashboard-hub"]
