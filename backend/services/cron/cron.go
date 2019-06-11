@@ -1,14 +1,58 @@
 package cron
 
-// import (
-// 	"fmt"
-// 	"github.com/robfig/cron"
+import (
+	"encoding/json"
+	"fmt"
+	"net/http"
 
-// )
-// cronJob := cron.New()
-// c.AddFunc("0 30 * * * *", func() { fmt.Println("Every hour on the half hour") })
+	"github.com/booua/dashboard-hub/backend/services/mqtt"
+	"gopkg.in/robfig/cron.v2"
+)
 
-// c.Start()
-// cronJob.AddFunc("@daily", func() { fmt.Println("Every day") })
-// inspect(c.Entries())
-// c.Stop()
+type TimeSetup struct {
+	CronExpression string
+}
+
+func SetupTimeForOpening(w http.ResponseWriter, r *http.Request) {
+
+	decoder := json.NewDecoder(r.Body)
+
+	var post TimeSetup
+	err := decoder.Decode(&post)
+
+	if err != nil {
+		panic(err)
+	}
+	SetupCronJobForOpening(post.CronExpression)
+}
+
+func SetupTimeForClosing(w http.ResponseWriter, r *http.Request) {
+
+	decoder := json.NewDecoder(r.Body)
+
+	var post TimeSetup
+	err := decoder.Decode(&post)
+
+	if err != nil {
+		panic(err)
+	}
+	SetupCronJobForClosing(post.CronExpression)
+}
+
+func SetupCronJobForOpening(cronExpression string) {
+	c := cron.New()
+	c.AddFunc(cronExpression, func() {
+		mqtt.PerformBlindsAction("OPE")
+		fmt.Println("Opening the blinds at %s", cronExpression)
+	})
+	c.Start()
+}
+
+func SetupCronJobForClosing(cronExpression string) {
+	c := cron.New()
+	c.AddFunc(cronExpression, func() {
+		mqtt.PerformBlindsAction("CLOS")
+		fmt.Println("Closing blinds at %s", cronExpression)
+	})
+	c.Start()
+}

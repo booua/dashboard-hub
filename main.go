@@ -21,8 +21,10 @@ func Routes() *chi.Mux {
 	)
 
 	router.Route("/v1", func(r chi.Router) {
-		r.Mount("/dashboard-hub/blinds/", rest.Routes())
-		r.Mount("/dashboard-hub/status/", rest.Routes())
+		r.Mount("/dashboard-hub/blinds/", rest.BlindsActionsRoutes())
+		r.Mount("/dashboard-hub/status/", rest.StatusRoutes())
+		r.Mount("/dashboard-hub/time/", rest.SetupTimeRoutes())
+
 	})
 	return router
 }
@@ -36,5 +38,6 @@ func main() {
 	if err := chi.Walk(router, walkFunc); err != nil {
 		log.Panicf("Logging error: %s\n", err.Error())
 	}
+
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
