@@ -38,7 +38,7 @@ func GetBlindsStatus(w http.ResponseWriter, r *http.Request) {
 
 	ctx, cancel := context.WithCancel(context.Background())
 	ch := make(chan string)
-	const TOPIC = "node/dashboard"
+	const TOPIC = "blinds/status"
 	fetchMqttMessage(ctx, ch, w, r, TOPIC)
 	select {
 	case result := <-ch:
