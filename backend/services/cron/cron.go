@@ -42,7 +42,7 @@ func SetupTimeForClosing(w http.ResponseWriter, r *http.Request) {
 func SetupCronJobForOpening(cronExpression string) {
 	c := cron.New()
 	c.AddFunc(cronExpression, func() {
-		mqtt.PerformBlindsAction("OPE")
+		mqtt.PerformBlindsAction("OPEN")
 		fmt.Println("Opening the blinds at %s", cronExpression)
 	})
 	c.Start()
@@ -51,7 +51,7 @@ func SetupCronJobForOpening(cronExpression string) {
 func SetupCronJobForClosing(cronExpression string) {
 	c := cron.New()
 	c.AddFunc(cronExpression, func() {
-		mqtt.PerformBlindsAction("CLOS")
+		mqtt.PerformBlindsAction("CLOSE")
 		fmt.Println("Closing blinds at %s", cronExpression)
 	})
 	c.Start()
