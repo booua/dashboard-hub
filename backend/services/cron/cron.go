@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
+	firebasemodule "github.com/booua/dashboard-hub/backend/services/firebase"
 	"github.com/booua/dashboard-hub/backend/services/mqtt"
 	"gopkg.in/robfig/cron.v2"
 )
@@ -23,6 +24,7 @@ func SetupTimeForOpening(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
+	firebasemodule.SetOpeningTime(post.CronExpression)
 	SetupCronJobForOpening(post.CronExpression)
 }
 
@@ -36,13 +38,14 @@ func SetupTimeForClosing(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
+	firebasemodule.SetClosingTime(post.CronExpression)
 	SetupCronJobForClosing(post.CronExpression)
 }
 
 func SetupCronJobForOpening(cronExpression string) {
 	c := cron.New()
 	c.AddFunc(cronExpression, func() {
-		mqtt.PerformBlindsAction("OPEN")
+		mqtt.PerformBlindsAction("OPE")
 		fmt.Println("Opening the blinds at %s", cronExpression)
 	})
 	c.Start()
@@ -51,7 +54,7 @@ func SetupCronJobForOpening(cronExpression string) {
 func SetupCronJobForClosing(cronExpression string) {
 	c := cron.New()
 	c.AddFunc(cronExpression, func() {
-		mqtt.PerformBlindsAction("CLOSE")
+		mqtt.PerformBlindsAction("CLOS")
 		fmt.Println("Closing blinds at %s", cronExpression)
 	})
 	c.Start()
