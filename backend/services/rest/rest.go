@@ -2,6 +2,7 @@ package rest
 
 import (
 	"github.com/booua/dashboard-hub/backend/services/cron"
+	"github.com/booua/dashboard-hub/backend/services/firebasemodule"
 	"github.com/booua/dashboard-hub/backend/services/mqtt"
 
 	"github.com/go-chi/chi"
@@ -25,5 +26,11 @@ func SetupTimeRoutes() *chi.Mux {
 	router := chi.NewRouter()
 	router.Post("/closing", cron.SetupTimeForClosing)
 	router.Post("/opening", cron.SetupTimeForOpening)
+	return router
+}
+
+func testFirebase() *chi.Mux {
+	router := chi.NewRouter()
+	router.Post("/firebase", firebasemodule.TestFirebase)
 	return router
 }
