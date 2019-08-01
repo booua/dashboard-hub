@@ -1,6 +1,6 @@
 FROM golang:alpine
 RUN apk update && apk add --no-cache git
-
+RUN cd ~ && mkdir google
 ADD ~/google ~/google
 
 ENV GOOGLE_APPLICATION_CREDENTIALS="~/google/dashboard-hub-0dea1d71f6ab.json"
