@@ -2,7 +2,7 @@ FROM golang:alpine
 RUN apk update && apk add --no-cache git
 RUN mkdir google
 
-ENV GOOGLE_APPLICATION_CREDENTIALS="~/google/dashboard-hub-0dea1d71f6ab.json"
+ENV GOOGLE_APPLICATION_CREDENTIALS="/google/dashboard-hub-0dea1d71f6ab.json"
 
 WORKDIR $GOPATH/src/github.com/booua/dashboard-hub
 
