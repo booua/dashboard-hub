@@ -36,6 +36,8 @@ func main() {
 		log.Printf("%s %s\n", method, route)
 		return nil
 	}
+	
+
 	if err := chi.Walk(router, walkFunc); err != nil {
 		log.Panicf("Logging error: %s\n", err.Error())
 	}
